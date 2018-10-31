@@ -14,7 +14,7 @@
                 border: 1px solid black;
                 padding: 5px;
                 border-collapse: collapse;
-                font-family: GoldenSans-Regular;
+
             }
 
             li {
@@ -23,10 +23,10 @@
 
             * {
                 font-family: GoldenSans;
-                
+
             }
 
-           
+
         </style>
         <img src="logo_rot.svg" alt="logo" width="100px ">
         <b style="margin-left: 135px; font-size: 25px ; bottom: 500px ; position:relative; bottom: 8px;">Ausbildungsnachweis </b>
@@ -37,35 +37,32 @@
         <table style="width:100%">
             <tr>
                 <td width="40%">Heft-Nr.:</td>
-                <td width="60%"></td>
+                <td width="60%">{{ heftnr }}</td>
             </tr>
             <tr>
                 <td width="40%">Name, Vorname:</td>
-                <td width="60%"></td>
+                <td width="60%">{{ vorname }} {{ nachname }}</td>
             </tr>
             <tr>
                 <td width="40%">Adresse:</td>
-                <td width="60%"></td>
+                <td width="60%">{{ adresse }}</td>
             </tr>
             <tr>
                 <td width="40%">Fachrichtung/Schwerpunkt: </td>
-                <td width="60%"></td>
+                <td width="60%">{{ beruf }}</td>
             </tr>
             <tr>
                 <td width="40%">Ausbildungsbetrieb:</td>
-                <td width="60%"></td>
+                <td width="60%">{{ betrieb }}</td>
             </tr>
             <tr>
                 <td width="40%">Verantwortliche/r Ausbilder/in:</td>
-                <td width="60%"></td>
+                <td width="60%">{{ ausbilder }}</td>
             </tr>
-            <tr>
-                <td width="40%">Verantwortliche/r Ausbilder/in:</td>
-                <td width="60%"></td>
-            </tr>
+
             <tr>
                 <td width="40%">Ende der Ausbildung:</td>
-                <td width="60%"></td>
+                <td width="60%">{{ ende }}</td>
             </tr>
         </table>
 </p><strong width="380">Hinweise:</strong>
