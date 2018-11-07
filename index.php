@@ -182,6 +182,32 @@ foreach ($meinearbeit as $kw=>&$data) {
 
 
 
+
+
+$templates = [
+	1=>__DIR__.'/Nachweis.html',
+	2=>__DIR__.'/Nachweis2.html',
+	3=>__DIR__.'/Nachweis3.html',
+];
+
+// Unsere Auswahl
+$template = $templates[$_GET['template']];
+
+
+
+
+
+
+// ===============================================================================
+// DO NOT TOUCH A FUCKING THING ABOVE THIS LINE
+// ===============================================================================
+
+
+
+
+
+
+
 reset($meinearbeit);
 $allererste_woche = key($meinearbeit);
 
@@ -210,50 +236,6 @@ $sonntag = $meinearbeit[$allererste_woche][key($meinearbeit[$allererste_woche])]
 next($meinearbeit[$allererste_woche]);
 }
 
-
-/*
-
-$meinearbeit = [
-
-    'KW 30'=>[
-
-
-    ],
-    'KW 31'=>[
-        '10.09.2018'=>"Geschuftet",
-        'xx.09.2018'=>"Geschuftet",
-        'xx.09.2018'=>"Geschuftet",
-        'xx.09.2018'=>"Geschuftet",
-        'xx.09.2018'=>"Geschuftet",
-        'xx.09.2018'=>"",
-        'xx.09.2018'=>""
-    ]
-];
-
-
-$kw = 30;
-$tag = "irgendeinmontag";
-
-$meinearbeit = [];
-$meinearbeit[$kw] = [$dateTime->format("l d.m.Y").'<br>'];
-$meinearbeit[$kw][$tag] = "task";
-
-
-
-/**/
-
-
-
-
-$templates = [
-	1=>__DIR__.'/Nachweis.html',
-	2=>__DIR__.'/Nachweis2.html',
-	3=>__DIR__.'/Nachweis3.html',
-];
-
-// Unsere Auswahl
-$template = $templates[$_GET['template']];
-
 $variablen = [
 	'heftnr'=>'1',
 	'vorname'=>'Alaa',
@@ -277,13 +259,26 @@ $variablen = [
 ];
 
 
-// ---------------- DON'T MESS WITH THE CODE BELOW UNLESS YOU ARE A PROGRAMMING GOOF!
+
 
 $templateContents = file_get_contents($template);
 
 foreach ($variablen as $key=>$val) {
 	$templateContents = str_replace('{{ '.$key.' }}', $val, $templateContents);
 }
+
+
+
+
+
+
+
+
+// ===============================================================================
+// DO NOT TOUCH A FUCKING THING BELOW THIS LINE
+// ===============================================================================
+
+
 
 if (empty($_GET['pdf'])) {
     echo $templateContents;
