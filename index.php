@@ -5,6 +5,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // reference the Dompdf namespace
 use Dompdf\Dompdf;
+use Carbon\Carbon;
 
 
 
@@ -111,11 +112,43 @@ foreach ($beispiel as $value)
 // Config
 setlocale(LC_ALL, 'de_DE@euro');
 
+if ($_POST['vom'] !== null){
+    $carbon_vom =  Carbon::createFromFormat('Y-m-d', $_POST['vom']);
+
+}
+
+if ($_POST['bis'] !== null){
+    $carbon_bis =  Carbon::createFromFormat('Y-m-d', $_POST['bis']);
+
+}
+
 // Liste aller möglichen Templates
 $pdo = new PDO('mysql:host=localhost;dbname=startworking;charset=utf8', 'root', 'password');
 
-$sql = "SELECT * FROM hours WHERE user_id = $user";
-foreach ($pdo->query($sql) as $row) {
+$vom = $carbon_vom->format('d.m.Y');
+$bis = $carbon_bis->format('d.m.Y');
+
+$sql = "SELECT * FROM hours WHERE user_id = :user";  /*and start_date>='$_POST[from]' AND start_date<='$_POST[to]'*/
+
+if ($carbon_vom !== null) {
+    $sql .= " AND start_date>=:startddate";
+
+}
+if ($carbon_bis !== null) {
+    $sql .= " AND start_date<=:enddate";
+
+}
+
+
+
+$prepared = $pdo->prepare($sql);
+$prepared->bindValue('user', $user);
+$prepared->bindValue('startddate', $carbon_vom->format('Y-m-d'));
+$prepared->bindValue('enddate', $carbon_bis->format('Y-m-d'));
+$prepared->execute();
+
+
+foreach ($prepared->fetchAll() as $row) {
 
    $dateTime = new DateTime($row['start_date']);
    $kw = $dateTime->format("W");
@@ -152,6 +185,8 @@ foreach ($meinearbeit as $kw=>&$data) {
 reset($meinearbeit);
 $allererste_woche = key($meinearbeit);
 
+if (null !== $allererste_woche) {
+
 reset($meinearbeit[$allererste_woche]);
 $montag = $meinearbeit[$allererste_woche][key($meinearbeit[$allererste_woche])];
 next($meinearbeit[$allererste_woche]);
@@ -173,7 +208,7 @@ next($meinearbeit[$allererste_woche]);
 
 $sonntag = $meinearbeit[$allererste_woche][key($meinearbeit[$allererste_woche])];
 next($meinearbeit[$allererste_woche]);
-
+}
 
 
 /*
@@ -229,8 +264,8 @@ $variablen = [
     'ausbilder'=>'Margus Kohv',
     'ende'=>'2021',
 	'jahr'=>'1',
-    'erster_tag'=>$first_day_in_array,
-    'letzter_tag'=>$check_day,
+    'erster_tag'=>$vom,
+    'letzter_tag'=>$bis,
     'montag'=> $montag,
     'dienstag'=> $dienstag,
     'mittwoch'=> $mittwoch,
@@ -240,6 +275,7 @@ $variablen = [
     'sonntag'=> $sonntag,
     'bla' => $bla
 ];
+
 
 // ---------------- DON'T MESS WITH THE CODE BELOW UNLESS YOU ARE A PROGRAMMING GOOF!
 

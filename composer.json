@@ -4,6 +4,7 @@
 		"ext-gd": "*",
 		"ext-mbstring": "*",
 		"php": ">=7.1.0",
-        "dompdf/dompdf": "~0.8.2"
+        "dompdf/dompdf": "~0.8.2",
+        "nesbot/carbon": "^2.5"
     }
 }
